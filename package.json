@@ -1,0 +1,69 @@
+{
+  "name": "reweave",
+  "displayName": "Reweave",
+  "description": "Local visual editor for AI-generated HTML.",
+  "version": "0.2.5",
+  "publisher": "pforge-ai",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pforge-ai/reweave.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pforge-ai/reweave/issues"
+  },
+  "homepage": "https://github.com/pforge-ai/reweave#readme",
+  "keywords": [
+    "html",
+    "visual-editor",
+    "ai-generated-html",
+    "vscode-extension"
+  ],
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:reweave.open"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "reweave.open",
+        "title": "Open in Reweave",
+        "category": "Reweave"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "reweave.open",
+          "when": "resourceExtname == .html || resourceExtname == .htm",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "reweave.open",
+          "when": "resourceExtname == .html || resourceExtname == .htm",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "npm run compile && node out/test/ruleEngine.test.js",
+    "package": "npx @vscode/vsce package --no-dependencies",
+    "vscode:prepublish": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "@types/vscode": "^1.92.0",
+    "typescript": "^5.5.4"
+  }
+}

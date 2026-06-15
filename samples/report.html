@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Q2 产品季度报告</title>
+  <style>
+    :root {
+      --ink: #20292e;
+      --muted: #69737a;
+      --brand: #1d3a35;
+      --accent: #0e7d6e;
+      --surface: #ffffff;
+      --bg: #f6f7f6;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "PingFang SC", ui-sans-serif, system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    header.topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      background: var(--surface);
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .topnav .logo { font-weight: 700; color: var(--brand); }
+    .topnav nav { display: flex; gap: 20px; }
+    .topnav a { color: var(--muted); text-decoration: none; font-size: 14px; }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 40px 24px 64px;
+    }
+
+    .hero {
+      padding: 48px;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(135deg, #1c2b28, #20554a);
+    }
+
+    .hero .eyebrow { margin: 0; opacity: 0.8; letter-spacing: 2px; font-size: 13px; }
+    .hero h1 { margin: 8px 0 12px; font-size: 34px; }
+    .hero p { margin: 0; max-width: 560px; opacity: 0.92; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .stat {
+      padding: 20px 24px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid #e5e7eb;
+    }
+
+    .stat .num { font-size: 28px; font-weight: 700; color: var(--brand); }
+    .stat .desc { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .card {
+      padding: 22px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: var(--surface);
+    }
+
+    .card h2 { margin: 0 0 8px; font-size: 18px; }
+    .card p { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+    .card a { color: var(--accent); font-size: 14px; }
+    .card .badge {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 2px 10px;
+      border-radius: 99px;
+      background: #ddefe9;
+      color: #0c6e5f;
+      font-size: 12px;
+    }
+
+    .quote {
+      margin: 28px 0;
+      padding: 28px 32px;
+      border-left: 4px solid var(--accent);
+      border-radius: 8px;
+      background: var(--surface);
+      font-size: 17px;
+    }
+
+    .quote cite { display: block; margin-top: 10px; color: var(--muted); font-size: 14px; font-style: normal; }
+
+    .cta {
+      padding: 36px;
+      text-align: center;
+      border-radius: 12px;
+      background: #1c2b28;
+      color: white;
+    }
+
+    .cta h2 { margin: 0 0 8px; }
+    .cta p { margin: 0 0 20px; opacity: 0.85; }
+    .cta a {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 8px;
+      background: white;
+      color: #1c2b28;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer.site {
+      padding: 24px 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <header class="topnav">
+    <span class="logo">Northwind Analytics</span>
+    <nav>
+      <a href="#overview">总览</a>
+      <a href="#growth">增长</a>
+      <a href="#voice">用户声音</a>
+      <a href="#next">下一步</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="overview">
+      <p class="eyebrow">QUARTERLY REVIEW · Q2</p>
+      <h1>值得立刻行动的增长信号</h1>
+      <p>本季度新用户激活提速、留存企稳。用 Reweave 点选任意区块:就地改文案、调主色、复制卡片,所有改动都会以最小 diff 写回这份 HTML。</p>
+    </section>
+
+    <section class="stats" id="growth">
+      <div class="stat">
+        <div class="num">+18%</div>
+        <p class="desc">新增合格试用,来自新版引导流程</p>
+      </div>
+      <div class="stat">
+        <div class="num">2.4×</div>
+        <p class="desc">邀请三名协作者的团队到达价值时刻的速度</p>
+      </div>
+      <div class="stat">
+        <div class="num">92%</div>
+        <p class="desc">周活账户留存,邮件量下降的情况下保持稳定</p>
+      </div>
+    </section>
+
+    <section class="cards">
+      <article class="card">
+        <h2>获客</h2>
+        <p>新版引导上线后,合格试用增长 18%,搜索渠道转化率提升明显。</p>
+        <a href="https://example.com/acquisition">查看明细</a>
+      </article>
+      <article class="card">
+        <span class="badge">本季亮点</span>
+        <h2>激活</h2>
+        <p>邀请三名协作者的团队,到达价值时刻的速度是其他团队的两倍。</p>
+        <a href="https://example.com/activation">查看明细</a>
+      </article>
+      <article class="card">
+        <h2>留存</h2>
+        <p>在邮件触达量降低的情况下,周活账户数保持平稳,质量优于数量。</p>
+        <a href="https://example.com/retention">查看明细</a>
+      </article>
+    </section>
+
+    <blockquote class="quote" id="voice">
+      "我们把周报从 Notion 搬回了纯 HTML——配合可视化编辑,交付速度反而更快了。"
+      <cite>—— 某企业客户 · 数据平台负责人</cite>
+    </blockquote>
+
+    <section class="cta" id="next">
+      <h2>下一步</h2>
+      <p>试试:双击这行文字直接改写;或在左侧大纲里把一张卡片拖到最前面。</p>
+      <a href="#overview">回到顶部</a>
+    </section>
+  </main>
+
+  <footer class="site">
+    Northwind Analytics · 本文档由 AI 生成,经 Reweave 编辑
+  </footer>
+</body>
+</html>
