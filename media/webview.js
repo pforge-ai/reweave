@@ -5,7 +5,7 @@
   const app = document.getElementById("app");
 
   const VIEWPORTS = [
-    { id: "desktop", label: "桌面", width: 1280, height: 800 },
+    { id: "desktop", label: "桌面", width: 1280, height: 800, fillHeight: true },
     { id: "tablet", label: "平板", width: 834, height: 1112 },
     { id: "mobile", label: "手机", width: 390, height: 844 },
     { id: "full", label: "全宽", width: 0, height: 0 }
@@ -170,7 +170,7 @@
 
   el.viewports.innerHTML = VIEWPORTS.map(
     (vp) => `<button data-action="viewport" data-viewport="${vp.id}" class="${vp.id === state.viewport ? "is-active" : ""}"
-      title="${vp.width ? `${vp.width}×${vp.height}` : "撑满画布"}">${vp.label}</button>`
+      title="${vp.width ? `${vp.width}×${vp.fillHeight ? "自适应高度" : vp.height}` : "撑满画布"}">${vp.label}</button>`
   ).join("");
 
   function byId(id) {
@@ -635,22 +635,38 @@
   }
 
   function viewportSize() {
-    const vp = viewportSpec();
-    const width = vp.width ? vp.width : Math.max(360, el.wrap.clientWidth - 56);
-    const height = vp.height ? vp.height : Math.max(420, el.wrap.clientHeight - 56);
+    const width = viewportWidth();
+    const height = viewportHeight(width);
     return { width, height };
   }
 
   function viewportWidth() {
-    return viewportSize().width;
+    const vp = viewportSpec();
+    return vp.width ? vp.width : availableCanvasWidth();
   }
 
-  function viewportHeight() {
-    return viewportSize().height;
+  function viewportHeight(width) {
+    const vp = viewportSpec();
+    if (!vp.height) {
+      return availableCanvasHeight();
+    }
+    if (vp.fillHeight && state.zoomMode === "fit") {
+      const zoom = fitZoomValue(width || viewportWidth());
+      return Math.max(vp.height, Math.ceil(availableCanvasHeight() / Math.max(zoom, 0.25)));
+    }
+    return vp.height;
   }
 
-  function fitZoomValue() {
-    return clampZoom((el.wrap.clientWidth - 56) / viewportWidth());
+  function availableCanvasWidth() {
+    return Math.max(360, el.wrap.clientWidth - 56);
+  }
+
+  function availableCanvasHeight() {
+    return Math.max(420, el.wrap.clientHeight - 56);
+  }
+
+  function fitZoomValue(width) {
+    return clampZoom(availableCanvasWidth() / (width || viewportWidth()));
   }
 
   function clampZoom(value) {
@@ -819,11 +835,12 @@
   }
 
   function layoutCanvas() {
-    const { width, height } = viewportSize();
+    const width = viewportWidth();
     if (state.zoomMode === "fit") {
-      state.zoom = fitZoomValue();
+      state.zoom = fitZoomValue(width);
       el.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
     }
+    const height = viewportHeight(width);
     frame.style.height = `${height}px`;
     el.canvas.style.width = `${width}px`;
     el.canvas.style.height = `${height}px`;
