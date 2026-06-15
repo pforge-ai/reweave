@@ -32,6 +32,7 @@
     ir: undefined,
     library: [],
     version: 0,
+    extensionVersion: "",
     fileName: "",
     dirty: false,
     selectedId: undefined,
@@ -133,6 +134,7 @@
       <footer class="rw-statusbar">
         <span id="rwStats"></span>
         <span class="rw-status-right">
+          <span class="rw-version" id="rwVersion"></span>
           <span class="rw-engine-badge" title="确定性规则引擎,无网络、无模型调用">纯规则 · 离线</span>
           <span id="rwParseMs"></span>
         </span>
@@ -160,6 +162,7 @@
     inspect: byId("rwInspect"),
     library: byId("rwLibrary"),
     stats: byId("rwStats"),
+    version: byId("rwVersion"),
     parseMs: byId("rwParseMs"),
     toasts: byId("rwToasts")
   };
@@ -203,6 +206,7 @@
     state.ir = message.ir;
     state.library = Array.isArray(message.library) ? message.library : [];
     state.version = message.version || 0;
+    state.extensionVersion = message.extensionVersion || "";
     state.fileName = message.fileName || "";
     state.dirty = Boolean(message.dirty);
     state.baseHref = message.baseHref || "";
@@ -257,6 +261,7 @@
   }
 
   function updateStatus() {
+    el.version.textContent = state.extensionVersion ? `Reweave v${state.extensionVersion}` : "";
     if (!state.ir) {
       el.stats.textContent = "";
       el.parseMs.textContent = "";

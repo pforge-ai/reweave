@@ -11,6 +11,7 @@ const html = fs.readFileSync(sourcePath, "utf8");
 const ir = analyzeHtml(html);
 const css = fs.readFileSync(path.join(rootDir, "media", "webview.css"), "utf8");
 const js = fs.readFileSync(path.join(rootDir, "media", "webview.js"), "utf8");
+const manifest = JSON.parse(fs.readFileSync(path.join(rootDir, "package.json"), "utf8"));
 
 const library = [
   {
@@ -29,6 +30,7 @@ const state = {
   ir,
   library,
   version: 3,
+  extensionVersion: manifest.version || "dev",
   fileName: path.basename(sourcePath),
   dirty: true,
   baseHref: `${pathToFileURL(path.dirname(sourcePath)).toString()}/`

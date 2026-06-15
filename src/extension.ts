@@ -200,6 +200,7 @@ class ReweavePanel {
       ir,
       library: await getLibrary(this.uri),
       version: document.version,
+      extensionVersion: this.getExtensionVersion(),
       fileName: path.basename(this.uri.fsPath),
       dirty: document.isDirty,
       baseHref: this.getBaseHref()
@@ -213,6 +214,11 @@ class ReweavePanel {
     }
     const dir = vscode.Uri.file(path.dirname(this.uri.fsPath));
     return `${this.panel.webview.asWebviewUri(dir).toString()}/`;
+  }
+
+  private getExtensionVersion(): string {
+    const version = this.context.extension.packageJSON?.version;
+    return typeof version === "string" && version ? version : "dev";
   }
 
   private toast(message: string, tone: "info" | "warn" | "success" = "info"): void {
@@ -315,8 +321,13 @@ class ReweavePanel {
 
   private getHtml(): string {
     const webview = this.panel.webview;
-    const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, "media", "webview.js"));
-    const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, "media", "webview.css"));
+    const cacheKey = encodeURIComponent(this.getExtensionVersion());
+    const scriptUri = webview
+      .asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, "media", "webview.js"))
+      .with({ query: `v=${cacheKey}` });
+    const styleUri = webview
+      .asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, "media", "webview.css"))
+      .with({ query: `v=${cacheKey}` });
     // The preview iframe (srcdoc) inherits this CSP, so it must allow what a
     // normal browser would: inline/CDN styles & scripts, remote fonts/images.
     // A nonce is deliberately not used — it would disable 'unsafe-inline'.

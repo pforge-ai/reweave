@@ -2,7 +2,7 @@
   "name": "reweave",
   "displayName": "Reweave",
   "description": "Local visual editor for AI-generated HTML.",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "publisher": "pforge-ai",
   "license": "MIT",
   "repository": {

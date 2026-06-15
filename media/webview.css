@@ -1193,6 +1193,11 @@ svg {
   gap: 10px;
 }
 
+.rw-version {
+  color: var(--vscode-descriptionForeground);
+  opacity: 0.85;
+}
+
 .rw-engine-badge {
   color: var(--vscode-descriptionForeground);
   letter-spacing: 0.2px;
