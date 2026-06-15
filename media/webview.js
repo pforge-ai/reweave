@@ -38,6 +38,7 @@
     hoveredId: undefined,
     viewport: "desktop",
     zoom: 1,
+    zoomMode: "fit",
     followSource: true,
     syncRepeat: false,
     outlineQuery: "",
@@ -246,6 +247,10 @@
     el.file.textContent = state.fileName;
     el.dirty.hidden = !state.dirty;
     el.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
+    const fitButton = document.querySelector('[data-action="zoom-fit"]');
+    if (fitButton) {
+      fitButton.classList.toggle("is-on", state.zoomMode === "fit");
+    }
     for (const button of el.viewports.querySelectorAll("button")) {
       button.classList.toggle("is-active", button.dataset.viewport === state.viewport);
     }
@@ -639,6 +644,14 @@
     return viewportSize().height;
   }
 
+  function fitZoomValue() {
+    return clampZoom((el.wrap.clientWidth - 56) / viewportWidth());
+  }
+
+  function clampZoom(value) {
+    return Math.min(2, Math.max(0.25, Math.round(value * 100) / 100));
+  }
+
   function reloadFrame() {
     frameReady = false;
     const scrollTop = el.wrap.scrollTop;
@@ -802,6 +815,10 @@
 
   function layoutCanvas() {
     const { width, height } = viewportSize();
+    if (state.zoomMode === "fit") {
+      state.zoom = fitZoomValue();
+      el.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
+    }
     frame.style.height = `${height}px`;
     el.canvas.style.width = `${width}px`;
     el.canvas.style.height = `${height}px`;
@@ -1151,19 +1168,18 @@
         scheduleOverlay();
         break;
       case "zoom-in":
-        setZoom(state.zoom + 0.1);
+        setZoom(state.zoom + 0.1, "manual");
         break;
       case "zoom-out":
-        setZoom(state.zoom - 0.1);
+        setZoom(state.zoom - 0.1, "manual");
         break;
       case "zoom-reset":
-        setZoom(1);
+        setZoom(1, "manual");
         break;
-      case "zoom-fit": {
-        const available = el.wrap.clientWidth - 56;
-        setZoom(available / viewportWidth());
+      case "zoom-fit":
+        state.zoomMode = "fit";
+        setZoom(fitZoomValue(), "fit");
         break;
-      }
       case "tab":
         state.rightTab = target.dataset.tab;
         syncTabs();
@@ -1211,9 +1227,11 @@
     el.library.hidden = state.rightTab !== "library";
   }
 
-  function setZoom(value) {
-    state.zoom = Math.min(2, Math.max(0.25, Math.round(value * 100) / 100));
+  function setZoom(value, mode) {
+    state.zoomMode = mode || "manual";
+    state.zoom = clampZoom(value);
     el.zoomValue.textContent = `${Math.round(state.zoom * 100)}%`;
+    updateTopbar();
     layoutCanvas();
     scheduleOverlay();
   }
@@ -1379,9 +1397,7 @@
   }
 
   window.addEventListener("resize", () => {
-    if (state.viewport === "full") {
-      layoutCanvas();
-    }
+    layoutCanvas();
     scheduleOverlay();
   });
 

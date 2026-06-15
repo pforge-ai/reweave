@@ -47,7 +47,7 @@ npm run package
 Then install the generated `reweave-*.vsix` in VS Code:
 
 ```bash
-code --install-extension reweave-0.2.5.vsix
+code --install-extension reweave-0.2.6.vsix
 ```
 
 ## Development

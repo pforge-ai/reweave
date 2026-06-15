@@ -47,7 +47,7 @@ npm run package
 然后在 VS Code 中安装生成的 `reweave-*.vsix`：
 
 ```bash
-code --install-extension reweave-0.2.5.vsix
+code --install-extension reweave-0.2.6.vsix
 ```
 
 ## 开发
